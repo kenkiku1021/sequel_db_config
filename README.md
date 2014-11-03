@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install sequel_db_config
+    $ gem install -l pkg/sequel_db_config-0.0.1.gem
 
 ## Usage
 
@@ -35,7 +35,7 @@ db_password: password
 SequelDbConfig::Config class includes Singleton module.
 To create instance
 ```
-cbconfig = SequelDbConfig::Config.instance
+dbconfig = SequelDbConfig::Config.instance
 ```
 
 ### Method
