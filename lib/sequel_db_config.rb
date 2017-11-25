@@ -1,6 +1,7 @@
 require "sequel_db_config/version"
 require "singleton"
 require "yaml"
+require "sequel"
 
 module SequelDbConfig
   # Your code goes here...
@@ -32,6 +33,24 @@ module SequelDbConfig
         end
       rescue
         raise "Cannot open configuration file."
+      end
+    end
+
+    # Execute migration
+    # If version is nil, sequel will migrate to the latest version.
+    def migrate(path, version = nil)
+      if @connection_string == ""
+        raise "Configuration is not loaded."
+      end
+      unless Dir.exist?(path)
+        raise "Migration dir not exists. (#{path})"
+      end
+      Sequel.extension :migration
+      db = Sequel.connect(@connection_string)
+      if version
+        Sequel::Migrator.run(db, path, target: version.to_i)
+      else
+        Sequel::Migrator.run(db, path)
       end
     end
   end
