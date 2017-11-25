@@ -41,6 +41,7 @@ dbconfig = SequelDbConfig::Config.instance
 ### Method
 * connection_string : get database connection string for Sequel.
 * load(file) : load configuration from specified YAML file.
+* migrate(path, version) : exec migration on specified path.
 
 ## Contributing
 
