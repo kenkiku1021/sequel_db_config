@@ -13,3 +13,4 @@
 mkmf.log
 dbconfig.yaml
 .ruby-version
+/pkg
