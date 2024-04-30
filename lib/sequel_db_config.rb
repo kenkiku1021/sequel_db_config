@@ -29,11 +29,32 @@ module SequelDbConfig
           db_name = conf["db_name"]
           db_user = conf["db_user"]
           db_password = conf["db_password"]
-          @connection_string = "#{db_driver}://#{db_user}:#{db_password}@#{db_host}/#{db_name}"
+          options = {
+            max_connections: conf["max_connections"],
+            pool_timeout: conf["pool_timeout"]  
+          }
+          option_string = self.make_options(options)
+
+          @connection_string = "#{db_driver}://#{db_user}:#{db_password}@#{db_host}/#{db_name}#{option_string}"
         end
       rescue
         raise "Cannot open configuration file."
       end
+    end
+
+    def make_options(opts)
+      option_string = ""
+      opts.each do |key, value|
+        if value
+          if option_string == ""
+            option_string = "?"
+          else
+            option_string += "&"
+          end
+          option_string += "#{key}=#{value}"
+        end
+      end
+      option_string
     end
 
     # Execute migration
